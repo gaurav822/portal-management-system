@@ -41,6 +41,27 @@ class _MainPageState extends State<MainPage> {
     Feedbacks()
   ];
 
+  List first = [
+      "Student Name",
+      "Register Number",
+      "Academic year",
+      "Institution",
+          "Semester",
+      "Program/Section",
+      "DOB/Gender",
+      "Father/Mother Name"
+    ];
+    List second = [
+      "Gaurav Dahal",
+      "AP17110010128",
+      "2017-2021",
+      "SEAS",
+      "8th",
+      "B.Tech CSE/ CSE-B",
+      "1998-02-02/M",
+      "Tilak Kumar Dahal"
+    ];
+
   List<bool> selected = [false, false, false, false, false, false];
 
   void select(int n) {
@@ -84,8 +105,9 @@ class _MainPageState extends State<MainPage> {
         children: [
           Container(
               color: Colors.white,
-              child: selected.indexOf(true)!=-1?mainPages[selected.indexOf(true)]:_defaultProfile()
-          ),
+              child: selected.indexOf(true) != -1
+                  ? mainPages[selected.indexOf(true)]
+                  : _defaultProfile()),
           Container(
             // margin: EdgeInsets.all(8),
             height: MediaQuery.of(context).size.height,
@@ -106,6 +128,9 @@ class _MainPageState extends State<MainPage> {
                                 icon: sideItems[index]["icon"],
                                 name: sideItems[index]["name"],
                                 selected: selected[index],
+                                color: selected[index] == true
+                                    ? "#3b5b8f"
+                                    : "#1b3154",
                                 onTap: () {
                                   setState(() {
                                     select(index);
@@ -122,13 +147,103 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget _defaultProfile() {
+    
+
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(child: Text("This is Default Profile",style: TextStyle(fontSize: 20),))
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 100),
+            child: Text(
+              "PROFILE",
+              style: TextStyle(fontSize: 22, color: Colors.grey),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 100, right: 20, top: 30),
+            width: double.infinity,
+            // height: 500,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 1)),
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Row(children: [
+                Expanded(
+                  
+                  child: Container(
+                    
+                    child: firstRow()),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: Container(
+                    
+                    child: secondRow()),
+                  flex: 1,
+                ),
+              ]),
+            ),
+          )
         ],
       ),
     );
+  }
+
+  Widget firstRow() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for(int i=0;i<first.length;i++) Container(
+          height: 50,
+          child: Text(first[i],style: TextStyle(color: blue, fontSize: 13),))
+      ],
+    );
+  }
+
+  Widget secondRow() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for(int i=0;i<second.length;i++) Container(
+          height: 50,
+                  child: Column(
+                                      children: [Text(second[i], style: TextStyle(
+                    color: blue, fontSize: 16, fontWeight: FontWeight.bold),),
+                    ]
+                  ),
+        ),
+        
+      ],
+    );
+  }
+
+  Widget _eachRow(String first, String second) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Row(
+        children: [
+          Text(
+            first,
+            style: TextStyle(color: blue, fontSize: 13),
+          ),
+          SizedBox(
+            width: 70,
+          ),
+          Text(
+            second,
+            style: TextStyle(
+                color: blue, fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      Divider(
+        color: blue,
+        thickness: 0.4,
+      )
+    ]);
   }
 }
 
@@ -137,12 +252,14 @@ class NavBarItem extends StatefulWidget {
   final Function onTap;
   final bool selected;
   final String name;
-  NavBarItem({this.icon, this.onTap, this.selected, this.name});
+  final String color;
+  NavBarItem({this.icon, this.onTap, this.selected, this.name, this.color});
   @override
   _NavBarItemState createState() => _NavBarItemState();
 }
 
 class _NavBarItemState extends State<NavBarItem> {
+  Color boxColor = HexColor("#1b3154");
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -156,8 +273,12 @@ class _NavBarItemState extends State<NavBarItem> {
           child: Stack(
             children: [
               Container(
-                height: 80,
+                margin: EdgeInsets.only(top: 10),
+                height: 60,
                 width: 80,
+                decoration: BoxDecoration(
+                  color: HexColor(widget.color),
+                ),
                 child: Column(children: [
                   Center(
                     child: Icon(
