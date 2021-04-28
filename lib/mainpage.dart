@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import 'mainpages/academic.dart';
+import 'mainpages/examination.dart';
+import 'mainpages/finance.dart';
+import 'mainpages/hostel.dart';
+import 'mainpages/transport.dart';
+import 'mainpages/feedback.dart';
+
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -25,10 +32,19 @@ class _MainPageState extends State<MainPage> {
     {"icon": Icons.feedback, "name": "Feedback"},
   ];
 
+  List mainPages = [
+    Academic(),
+    Finance(),
+    Examination(),
+    Hostel(),
+    Transport(),
+    Feedbacks()
+  ];
+
   List<bool> selected = [false, false, false, false, false, false];
 
   void select(int n) {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i <= 5; i++) {
       if (i == n) {
         selected[i] = true;
       } else {
@@ -67,7 +83,8 @@ class _MainPageState extends State<MainPage> {
       body: Stack(
         children: [
           Container(
-            color: Colors.white,
+              color: Colors.white,
+              child: selected.indexOf(true)!=-1?mainPages[selected.indexOf(true)]:_defaultProfile()
           ),
           Container(
             // margin: EdgeInsets.all(8),
@@ -93,13 +110,22 @@ class _MainPageState extends State<MainPage> {
                                   setState(() {
                                     select(index);
                                   });
-
                                 },
                               ))),
                 )
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _defaultProfile() {
+    return Container(
+      child: Column(
+        children: [
+          Center(child: Text("This is Default Profile",style: TextStyle(fontSize: 20),))
         ],
       ),
     );
